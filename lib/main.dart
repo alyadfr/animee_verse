@@ -1,7 +1,6 @@
+import 'package:flutter_project/config/routes.dart';
 import 'package:flutter_project/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'config/routes.dart';
 
 void main() {
   runApp(const MyApp());

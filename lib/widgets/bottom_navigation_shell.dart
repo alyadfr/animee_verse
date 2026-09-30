@@ -1,53 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../config/routes.dart';
-
-// bottom_navigation_shell.dart
 class BottomNavigationShell extends StatelessWidget {
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
   const BottomNavigationShell({
     super.key,
-    required this.child,
+    required this.navigationShell,
   });
-  // bottom_navigation_shell.dart
-  int _calculateSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.path;
-    switch (location) {
-      case AppRoutes.home:
-        return 0;
-      case AppRoutes.favorites:
-        return 1;
-      case AppRoutes.profile:
-        return 2;
-      default:
-        return 0;
-    }
-  }
 
-  // bottom_navigation_shell.dart
   void _onItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        context.go(AppRoutes.home);
-        break;
-      case 1:
-        context.go(AppRoutes.favorites);
-        break;
-      case 2:
-        context.go(AppRoutes.profile);
-        break;
-    }
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
-
-  // bottom_navigation_shell.dart
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final currentIndex = _calculateSelectedIndex(context);
+    final currentIndex = navigationShell.currentIndex;
 
     return PopScope(
       canPop: false,
@@ -56,70 +29,76 @@ class BottomNavigationShell extends StatelessWidget {
 
         final String currentLocation = GoRouterState.of(context).uri.path;
 
-        if (currentLocation == AppRoutes.home) {
+        if (currentLocation == '/home') {
           Navigator.of(context).pop();
         } else {
           if (GoRouter.of(context).canPop()) {
             GoRouter.of(context).pop();
           } else {
-            context.go(AppRoutes.home);
+            context.go('/homes');
           }
         }
       },
       child: SafeArea(
         top: false,
         child: Scaffold(
-        body: child,
-        extendBody: true,
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.04,
-            vertical: 0,
-          ),
-          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-          decoration: const BoxDecoration(
-            color: Color(0xFF0b395e),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(
-                context,
-                0,
-                Icons.home_rounded,
-                'Home',
-                currentIndex,
-                screenWidth,
-                screenHeight,
-              ),
-              _buildNavItem(
-                context,
-                1,
-                Icons.favorite_rounded,
-                'Favorites',
-                currentIndex,
-                screenWidth,
-                screenHeight,
-              ),
-              _buildNavItem(
-                context,
-                2,
-                Icons.person_rounded,
-                'Profile',
-                currentIndex,
-                screenWidth,
-                screenHeight,
-              ),
-            ],
+          body: navigationShell,
+          extendBody: true,
+          bottomNavigationBar: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.04,
+              vertical: 0,
+            ),
+            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+            decoration: BoxDecoration(
+              color: const Color(0xff0b395e),
+              borderRadius: BorderRadius.circular(screenWidth * 0.06),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: screenWidth * 0.02,
+                  offset: Offset(0, screenHeight * 0.005),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(
+                  context,
+                  0,
+                  Icons.home_rounded,
+                  'Home',
+                  currentIndex,
+                  screenWidth,
+                  screenHeight,
+                ),
+                _buildNavItem(
+                  context,
+                  1,
+                  Icons.favorite_rounded,
+                  'Favorites',
+                  currentIndex,
+                  screenWidth,
+                  screenHeight,
+                ),
+                _buildNavItem(
+                  context,
+                  2,
+                  Icons.person_rounded,
+                  'Profile',
+                  currentIndex,
+                  screenWidth,
+                  screenHeight,
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    )
     );
   }
 
-
-// bottom_navigation_shell.dart
   Widget _buildNavItem(
       BuildContext context,
       int index,
@@ -140,15 +119,15 @@ class BottomNavigationShell extends StatelessWidget {
           horizontal: screenWidth * 0.045,
         ),
         decoration: BoxDecoration(
-            color: const Color(0xff092c47),
-            borderRadius: BorderRadius.circular(screenWidth * 0.06),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.3),
-                blurRadius: screenWidth * 0.02,
-                offset: Offset(0, screenHeight * 0.005),
-              ),
-            ]
+          color: const Color(0xff092c47),
+          borderRadius: BorderRadius.circular(screenWidth * 0.06),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.3),
+              blurRadius: screenWidth * 0.02,
+              offset: Offset(0, screenHeight * 0.005),
+            ),
+          ],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -183,5 +162,4 @@ class BottomNavigationShell extends StatelessWidget {
       ),
     );
   }
-
 }

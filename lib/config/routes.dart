@@ -1,11 +1,12 @@
-import 'package:flutter_project/screens/detail_screen.dart';
 import 'package:flutter_project/screens/favorite_screen.dart';
 import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_project/screens/profile_screen.dart';
 import 'package:flutter_project/screens/signin_screen.dart';
 import 'package:flutter_project/screens/signup_screen.dart';
+import 'package:flutter_project/widgets/bottom_navigation_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../screens/detail_screen.dart';
 
 class AppRoutes {
   static const String signIn = '/sign-in';
@@ -17,42 +18,51 @@ class AppRoutes {
 }
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 GoRouter createRouter() {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/home',
+    initialLocation: AppRoutes.signIn,
     routes: [
       GoRoute(
-        path: '/sign-in',
-        builder: (context, state) => const SignInScreen(),
+        path: AppRoutes.signIn,
+        builder: (context, state) => const signinScreen(),
       ),
       GoRoute(
-        path: '/sign-up',
+        path: AppRoutes.signUp,
         builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
-        path: '/details',
+        path: AppRoutes.details,
         builder: (context, state) => const DetailScreen(),
       ),
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) {
-          return child;
-        },
-        routes: [
-          GoRoute(
-            path: '/home',
-            builder: (context, state) => const HomeScreen(),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            BottomNavigationShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.home,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/favorite',
-            builder: (context, state) => const FavoriteScreen(),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.favorites,
+                builder: (context, state) => const FavoriteScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/profile',
-            builder: (context, state) => const ProfileScreen(),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.profile,
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
           ),
         ],
       ),

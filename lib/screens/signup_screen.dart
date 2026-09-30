@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../config/routes.dart';
 import 'package:flutter_project/config/routes.dart';
 
 
@@ -137,6 +138,7 @@ class SignUpScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             // TODO: Implement sign up functionality
+                            context.go(AppRoutes.home);
                             context.go(AppRoutes.signIn);
                           },
                           style: ElevatedButton.styleFrom(

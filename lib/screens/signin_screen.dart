@@ -2,12 +2,14 @@ import 'package:flutter_project/config/routes.dart';
 import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../config/routes.dart';
 import '../widgets/app.scaffold.dart';
 import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'home_screen.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+class signinScreen extends StatelessWidget {
+  const signinScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
