@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/routes.dart';
 import '../../widgets/profile_button.dart';
 
-import '../widgets/app.scaffold.dart';
+import '../widgets/app_scaffold.dart';
 import '../widgets/profile_button.dart';
 
 class ProfileScreen extends StatelessWidget {

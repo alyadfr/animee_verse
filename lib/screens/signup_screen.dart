@@ -5,7 +5,7 @@ import '../config/routes.dart';
 import 'package:flutter_project/config/routes.dart';
 
 
-import '../widgets/app.scaffold.dart';
+import '../widgets/app_scaffold.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});

@@ -26,7 +26,7 @@ GoRouter createRouter() {
     routes: [
       GoRoute(
         path: AppRoutes.signIn,
-        builder: (context, state) => const signinScreen(),
+        builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
         path: AppRoutes.signUp,
@@ -34,7 +34,11 @@ GoRouter createRouter() {
       ),
       GoRoute(
         path: AppRoutes.details,
-        builder: (context, state) => const DetailScreen(),
+        builder: (context, state) {
+          // Mengambil animeId yang dikirim melalui extra atau query parameter
+          final animeId = state.uri.queryParameters['id'] ?? '';
+          return DetailScreen(animeId: animeId);
+        },
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
